@@ -23,20 +23,21 @@ assert init_pygame()
 
 SCREEN_SIZE = (TILE_COUNT * TILE_SIZE, TILE_COUNT * TILE_SIZE)
 game_screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption('XOXO (Python)')
+game_screen.fill([128, 128, 156])
+pygame.display.set_caption('XOXO\u00B2 (Python)')
 clock = pygame.time.Clock()
 
 def handle_input(key_name):
     if(key_name == "q"):
        sys.exit()
 def draw_grid():
-    # NOTE: DRAWING ON [EXCALIDRAW](https://excalidraw.com/#json=bVlSRVxR6XCVYOoNvSSwr,YyqsxgNER24hgmbZ98famA)
+    # NOTE: CALCULATING INNER SIZE TO ACCOUNT FOR MARGINS, SEE ALSO THE DRAWING ON [EXCALIDRAW](https://excalidraw.com/#json=bVlSRVxR6XCVYOoNvSSwr,YyqsxgNER24hgmbZ98famA)
     TILE_INNER_SIZE = (SCREEN_SIZE[0] - (TILE_COUNT+1)*TILE_GAP)/TILE_COUNT
     for i in range(0, TILE_COUNT+1):
         for j in range(0, TILE_COUNT+1):
             pygame.draw.rect(
                 game_screen, 
-                [255, 255, 255], 
+                pygame.Color("white"),
                 [TILE_GAP + (TILE_INNER_SIZE+TILE_GAP) * i, 
                  TILE_GAP + (TILE_INNER_SIZE+TILE_GAP) * j, 
                  TILE_INNER_SIZE, 
