@@ -2,9 +2,9 @@ import sys
 import pygame
 from pygame.locals import *
 
-FRAME_RATE = 60.0
-SCREEN_SIZE = (800, 800)
-TILE_SIZE = SCREEN_SIZE[0] / 4
+TILE_COUNT = 4
+TILE_SIZE = 200
+TILE_GAP = 20
 
 def init_pygame():
     pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -19,20 +19,34 @@ def init_pygame():
     if not pygame.mixer.get_init():
         success = False
     return success
-
 assert init_pygame()
 
+SCREEN_SIZE = (TILE_COUNT * TILE_SIZE, TILE_COUNT * TILE_SIZE)
 game_screen = pygame.display.set_mode(SCREEN_SIZE)
 pygame.display.set_caption('XOXO (Python)')
 clock = pygame.time.Clock()
 
 def handle_input(key_name):
-    if(key_name == "Q"):
+    if(key_name == "q"):
        sys.exit()
-
+def draw_grid():
+    # NOTE: DRAWING ON [EXCALIDRAW](https://excalidraw.com/#json=bVlSRVxR6XCVYOoNvSSwr,YyqsxgNER24hgmbZ98famA)
+    TILE_INNER_SIZE = (SCREEN_SIZE[0] - (TILE_COUNT+1)*TILE_GAP)/TILE_COUNT
+    for i in range(0, TILE_COUNT+1):
+        for j in range(0, TILE_COUNT+1):
+            pygame.draw.rect(
+                game_screen, 
+                [255, 255, 255], 
+                [TILE_GAP + (TILE_INNER_SIZE+TILE_GAP) * i, 
+                 TILE_GAP + (TILE_INNER_SIZE+TILE_GAP) * j, 
+                 TILE_INNER_SIZE, 
+                 TILE_INNER_SIZE],
+            )
 def update(screen, time):
+    draw_grid()
     pygame.display.update()
 
+FRAME_RATE = 60.0
 def main():
     while True:
         for event in pygame.event.get():
@@ -53,5 +67,4 @@ def main():
             pygame.time.wait(int(sleep_time))
         else:
             pygame.time.wait(1)
-
 main()
